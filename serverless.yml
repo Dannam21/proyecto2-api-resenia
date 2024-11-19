@@ -34,11 +34,14 @@ resources:
             AttributeType: S
           - AttributeName: producto_id
             AttributeType: S
+          - AttributeName: usuario_id
+            AttributeType: S
         KeySchema:
           - AttributeName: tenant_id
             KeyType: HASH
           - AttributeName: resenia_id
             KeyType: RANGE
+        BillingMode: PAY_PER_REQUEST
         LocalSecondaryIndexes:
           - IndexName: ProductoIndex
             KeySchema:
@@ -51,13 +54,12 @@ resources:
         GlobalSecondaryIndexes:
           - IndexName: UsuarioIndex
             KeySchema:
-              - AttributeName: usuario_id
+              - AttributeName: tenant_id
                 KeyType: HASH
+              - AttributeName: usuario_id
+                KeyType: RANGE
             Projection:
               ProjectionType: ALL
-            ProvisionedThroughput:
-              ReadCapacityUnits: 1
-              WriteCapacityUnits: 1
-        BillingMode: PAY_PER_REQUEST
         PointInTimeRecoverySpecification:
           PointInTimeRecoveryEnabled: true
+
